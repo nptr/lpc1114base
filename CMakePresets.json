@@ -1,0 +1,49 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "Default Config",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "arm-none-eabi-gcc.exe",
+                "CMAKE_CXX_COMPILER": "arm-none-eabi-g++.exe",
+                "CMAKE_C_FLAGS": "-std=c11 -mthumb -mcpu=cortex-m0",
+                "CMAKE_EXE_LINKER_FLAGS": "-nostdlib -T ${sourceDir}/src/lpc1114_333.ld -Xlinker -print-memory-usage -Xlinker --gc-sections"
+            },
+            "environment": {
+                "CC": "arm-none-eabi-gcc.exe",
+                "CXX": "arm-none-eabi-g++.exe"
+            }
+        },
+        {
+            "name": "arm-debug",
+            "displayName": "ARM Debug",
+            "inherits": "default",
+            "description": "Sets debug build type and ARM arch",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "arm-release",
+            "displayName": "ARM Release",
+            "inherits": "default",
+            "description": "Sets release build type and ARM arch",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "default-build",
+            "displayName": "Default",
+            "configurePreset": "arm-debug"
+        }
+    ]
+}
