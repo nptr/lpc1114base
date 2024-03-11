@@ -5,7 +5,7 @@
             "name": "GDB Attach",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/arm-debug/lpc1114base",
+            "program": "${workspaceFolder}/build/arm-debug/lpc1114base.elf",
             "MIMode": "gdb",
             "miDebuggerPath": "arm-none-eabi-gdb.exe",
             "miDebuggerServerAddress": "localhost:3333",

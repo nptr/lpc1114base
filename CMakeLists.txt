@@ -18,3 +18,11 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     lpc_chip_11cxx_lib
 )
+
+# use the .elf extension for the output file, to not mistake it to be flashable.
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}.elf)
+
+# postbuild step to make a flashable, raw, binary file.
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -v -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
+)
