@@ -5,7 +5,7 @@ add_subdirectory(lib/lpc_chip_11cxx_lib)
 
 add_executable(${PROJECT_NAME}
     src/cr_startup_lpc11xx.c
-    src/crp.c
+    src/lpc11xx_crp.c
     src/main.c
     src/sysinit.c
 )

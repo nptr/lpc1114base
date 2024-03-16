@@ -1,7 +1,6 @@
 /*
  * Linker script file for LPC1114/333
  * - Does not support C++ binaries
- * - Does not support Code Read Protection (CRP)
  */
 
 GROUP (
@@ -12,8 +11,8 @@ GROUP (
 
 MEMORY
 {
-  Flash (rx) : ORIGIN = 0x0, LENGTH = 0xe000 /* 56K bytes (alias Flash) */  
-  RAM (rwx) : ORIGIN = 0x10000000, LENGTH = 0x2000 /* 8K bytes (alias RAM) */  
+  Flash (rx) : ORIGIN = 0x0, LENGTH = 0xe000 /* 56K bytes */  
+  RAM (rwx) : ORIGIN = 0x10000000, LENGTH = 0x2000 /* 8K bytes */  
 }
 
 /* Define a symbol for the top of each memory region */
@@ -27,15 +26,16 @@ ENTRY(ResetISR)
 
 SECTIONS
 {
-    /* MAIN TEXT SECTION */
+    /* 
+     * .text section for MCU startup code & data.
+     */
     .text : ALIGN(4)
     {
         FILL(0xff)
-        __vectors_start__ = ABSOLUTE(.) ;
         KEEP(*(.isr_vector))
+        
         /* Global Section Table */
         . = ALIGN(4) ; 
-        __section_table_start = .;
         __data_section_table = .;
         LONG(LOADADDR(.data));
         LONG(    ADDR(.data));
@@ -45,15 +45,17 @@ SECTIONS
         LONG(    ADDR(.bss));
         LONG(  SIZEOF(.bss));
         __bss_section_table_end = .;
-        __section_table_end = . ;
 	    /* End of Global Section Table */
 
         *(.after_vectors*)
 
-        /* CRP data here */
+        /* Code Read Protection */
+        . = 0x2fc;
+        KEEP(*(.crp))
     } > Flash
 
-    .text : ALIGN(4)    
+    /* .text section for application code & data */
+    .text : ALIGN(4)
     {
         *(.text*)
         *(.rodata .rodata.* .constdata .constdata.*)
@@ -61,10 +63,10 @@ SECTIONS
     } > Flash
     
     /*
-     * for exception handling/unwind - some Newlib functions (in common
+     * For exception handling/unwind - some Newlib functions (in common
      * with C++ and STDC++) use this. 
      */
-    .ARM.extab : ALIGN(4) 
+    .ARM.extab : ALIGN(4)
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
     } > Flash
@@ -78,7 +80,10 @@ SECTIONS
 
     _etext = .;
         
-    /* MAIN DATA SECTION */
+    /* 
+     * Allow reserving the first block of RAM. Some NXP MCUs have peripheral
+     * drivers built into ROM that require space here we must not use.
+     */
     .uninit_RESERVED : ALIGN(4)
     {
         KEEP(*(.bss.$RESERVED*))
@@ -86,7 +91,9 @@ SECTIONS
         _end_uninit_RESERVED = .;
     } > RAM
 
-    /* Main DATA section (RAM) */
+    /* 
+     * Statically initialized RAM (loaded from Flash)
+     */
     .data : ALIGN(4)
     {
        FILL(0xff)
@@ -98,7 +105,9 @@ SECTIONS
        _edata = . ;
     } > RAM AT> Flash
 
-    /* MAIN BSS SECTION */
+    /*
+     * Zero initialized RAM
+     */
     .bss : ALIGN(4)
     {
         _bss = .;
@@ -109,7 +118,9 @@ SECTIONS
         PROVIDE(end = .);
     } > RAM
 
-    /* DEFAULT NOINIT SECTION */
+    /*
+     * Uninitialized RAM
+     */
     .noinit (NOLOAD): ALIGN(4)
     {
         _noinit = .;
@@ -128,5 +139,5 @@ SECTIONS
                                          + (( DEFINED(NMI_Handler) ? NMI_Handler : M0_NMI_Handler ) + 1) 
                                          + (( DEFINED(HardFault_Handler) ? HardFault_Handler : M0_HardFault_Handler ) + 1) 
                                          )
-           );
+    );
 }
