@@ -16,6 +16,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    gcc
     lpc_chip_11cxx_lib
 )
 

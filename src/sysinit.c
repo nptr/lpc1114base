@@ -44,7 +44,7 @@
  ****************************************************************************/
 
 #if defined(NO_BOARD_LIB)
-const uint32_t OscRateIn = 12000000;
+const uint32_t OscRateIn = 0;
 const uint32_t ExtRateIn = 0;
 #endif
 

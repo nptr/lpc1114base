@@ -4,10 +4,8 @@
  */
 
 GROUP (
-  libcr_c.a
-  libcr_eabihelpers.a
+  libgcc.a
 )
-
 
 MEMORY
 {

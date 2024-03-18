@@ -1,13 +1,3 @@
-/*
-===============================================================================
- Name        : main.c
- Author      : $(author)
- Version     :
- Copyright   : $(copyright)
- Description : main definition
-===============================================================================
-*/
-
 #ifdef __USE_CMSIS
 #include "LPC11xx.h"
 #endif
@@ -18,7 +8,7 @@
 #include "board.h"
 #endif
 
-#include <cr_section_macros.h>
+#include <gpio_11xx_2.h>
 
 int main(void) {
 
