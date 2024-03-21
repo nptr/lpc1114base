@@ -22,7 +22,25 @@
                     "ignoreFailures": true
                 }
             ]
+        },
+        {
+            "name": "Cortex Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "executable": "${workspaceFolder}/build/arm-debug/lpc1114base.elf",
+            "gdbPath": "arm-none-eabi-gdb.exe",
+            "servertype": "jlink",
+            "serverpath": "C:/Program Files/SEGGER/JLink_V796a/JLinkGDBServerCL.exe",
+            "cwd": "${workspaceFolder}",
+            "device": "LPC1114/333",
+            "svdFile": "${workspaceFolder}/src/lpc11xx.svd",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "postLaunchCommands": [
+                "monitor semihosting enable",
+                "monitor semihosting ioclient 2"
+            ]
         }
-
     ]
 }

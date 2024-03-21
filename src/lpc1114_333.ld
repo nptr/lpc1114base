@@ -3,10 +3,6 @@
  * - Does not support C++ binaries
  */
 
-GROUP (
-  libgcc.a
-)
-
 MEMORY
 {
   Flash (rx) : ORIGIN = 0x0, LENGTH = 0xe000 /* 56K bytes */  
