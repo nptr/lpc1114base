@@ -11,6 +11,8 @@
                 "CMAKE_SYSTEM_NAME": "Generic",
                 "CMAKE_C_COMPILER": "arm-none-eabi-gcc.exe",
                 "CMAKE_CXX_COMPILER": "arm-none-eabi-g++.exe"
+                "FREERTOS_CONFIG_FILE_DIRECTORY": "${sourceDir}/src/",
+                "FREERTOS_PORT": "GCC_ARM_CM0"
             }
         },
         {

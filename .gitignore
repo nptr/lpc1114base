@@ -1,2 +1,10 @@
 
-/build
+/build/
+/lib/freertos/.gitmodules
+
+/lib/freertos/portable/*
+!/lib/freertos/portable/GCC/
+!/lib/freertos/portable/MemMang/
+
+/lib/freertos/portable/GCC/*
+!/lib/freertos/portable/GCC/ARM_CM0/

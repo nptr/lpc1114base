@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 project(lpc1114base)
 
 add_subdirectory(lib/lpc_chip_11cxx_lib)
+add_subdirectory(lib/freertos)
 
 add_executable(${PROJECT_NAME}
     src/cr_startup_lpc11xx.c
@@ -17,6 +18,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     lpc_chip_11cxx_lib
+    freertos_kernel
 )
 
 # use the .elf extension for the output file, to not mistake it to be flashable.
